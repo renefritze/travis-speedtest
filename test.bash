@@ -1,11 +1,5 @@
 #!/bin/bash
 
-CLEAR="/sbin/sysctl -w vm.drop_caches=3"
-
-${CLEAR}
-dd if=/dev/zero of=/tmp/testfile bs=1G count=1 oflag=direct
-${CLEAR}
-dd if=/dev/zero of=/tmp/testfile bs=512 count=1000 oflag=direct
-
-${CLEAR}
-hdparm -Tt /dev/sda
+fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 \
+    --name=test --filename=test --bs=4k --iodepth=64 \
+    --size=4G --readwrite=randrw --rwmixread=75
