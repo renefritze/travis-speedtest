@@ -15,17 +15,14 @@ language: generic
 services: docker
 
 before_script:
-    - export IMAGE="renemilk/travis-speedtest:latest"
-    # get image with fallback to master branch of the super repo
-    - docker pull ${IMAGE}
-    - export DOCKER_RUN="docker run -v ${TRAVIS_BUILD_DIR}:/root/src/ ${IMAGE}"
+    - sudo make docker
 
 install:
     - sudo apt-get update && sudo apt-get install -y hdparm fio
 
 script:
-    - travis_wait 21 sudo ${DOCKER_RUN} /root/src/test.bash
-    - travis_wait 21 sudo ./test.bash
+    - sudo make test_docker
+    - sudo make test
 
 
 notifications:
