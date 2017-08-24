@@ -24,8 +24,8 @@ install:
     - sudo apt-get update && sudo apt-get install -y hdparm fio
 
 script:
-    - sudo ${DOCKER_RUN} /root/src/test.bash
-    - sudo ./test.bash
+    - travis_wait 21 sudo ${DOCKER_RUN} /root/src/test.bash
+    - travis_wait 21 sudo ./test.bash
 
 
 notifications:
